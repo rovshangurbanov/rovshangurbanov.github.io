@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { posts } from "../../data/posts";
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<Layout title={`${post.title} — Rovshan Gurbanov`} description={post.excerpt}>
+  <article class="article">
+    <div class="article-head">
+      <a class="back-link" href="/blog/">← Back to blog</a>
+      <span class="post-meta">{post.category} · {post.date}</span>
+      <h1>{post.title}</h1>
+      {post.excerpt && <p>{post.excerpt}</p>}
+    </div>
+
+    <div class="article-body">
+      {post.body.map((paragraph) => {
+        const labelEnd = paragraph.indexOf(":");
+        return labelEnd > 0 && labelEnd < 30
+          ? <p><strong>{paragraph.slice(0, labelEnd + 1)}</strong>{paragraph.slice(labelEnd + 1)}</p>
+          : <p>{paragraph}</p>;
+      })}
+      {post.closing && <p class="article-closing">{post.closing}</p>}
+      {post.sourceUrl && (
+        <p class="article-source">
+          Product-family specifications: <a href={post.sourceUrl} target="_blank" rel="noreferrer">MSI official specifications</a>.
+        </p>
+      )}
+    </div>
+  </article>
+</Layout>

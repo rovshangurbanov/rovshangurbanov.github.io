@@ -1,0 +1,119 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Rovshan Gurbanov",
+  description = "Personal website of Rovshan Gurbanov.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f8f6ef" />
+    <script is:inline>
+      try {
+        const savedTheme = localStorage.getItem("site-theme-preference");
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const initialTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
+        document.documentElement.dataset.theme = initialTheme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", initialTheme === "dark" ? "#24231f" : "#f8f6ef");
+      } catch {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="home-link" href="/" aria-label="Home" title="Home">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="/blog/">Blog</a>
+          <a href="/about/">About</a>
+          <a href="/projects/">Projects</a>
+          <a href="/tastes/">Tastes</a>
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.5A8.5 8.5 0 0 1 8.5 3.8 8.5 8.5 0 1 0 20.2 15.5Z" /></svg>
+        </button>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="footer">
+        <span>© {new Date().getFullYear()} Rovshan Gurbanov</span>
+        <div class="footer-links">
+          <a href="https://github.com/rovshangurbanov" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="mailto:hello@rovshangurbanov.github.io">Email</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<script>
+  const themeToggle = document.querySelector<HTMLButtonElement>(".theme-toggle");
+  const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function syncThemeToggle() {
+    const isDark = document.documentElement.dataset.theme === "dark";
+    themeToggle?.setAttribute("aria-pressed", String(isDark));
+    themeToggle?.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+  }
+
+  colorScheme.addEventListener("change", (event) => {
+    let savedTheme = null;
+    try {
+      savedTheme = localStorage.getItem("site-theme-preference");
+    } catch {}
+    if (savedTheme) return;
+    document.documentElement.dataset.theme = event.matches ? "dark" : "light";
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", event.matches ? "#24231f" : "#f8f6ef");
+    syncThemeToggle();
+  });
+
+  syncThemeToggle();
+  themeToggle?.addEventListener("click", () => {
+    const isDark = document.documentElement.dataset.theme !== "dark";
+    const applyTheme = () => {
+      document.documentElement.dataset.theme = isDark ? "dark" : "light";
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", isDark ? "#24231f" : "#f8f6ef");
+      try {
+        localStorage.setItem("site-theme-preference", isDark ? "dark" : "light");
+      } catch {}
+      syncThemeToggle();
+    };
+
+    const transitionDocument = document as typeof document & {
+      startViewTransition?: (update: () => void) => { finished: Promise<void> };
+    };
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const transition = prefersReducedMotion ? undefined : transitionDocument.startViewTransition?.(() => {
+      document.documentElement.dataset.themeTransition = "true";
+      applyTheme();
+    });
+
+    if (transition) {
+      transition.finished.then(
+        () => delete document.documentElement.dataset.themeTransition,
+        () => delete document.documentElement.dataset.themeTransition,
+      );
+    } else {
+      applyTheme();
+    }
+  });
+</script>

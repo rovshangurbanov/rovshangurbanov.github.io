@@ -1,0 +1,33 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { archivePosts } from "../../data/posts";
+---
+
+<Layout title="Blog — Rovshan Gurbanov" description="Notes and articles by Rovshan Gurbanov.">
+  <section class="page-hero">
+    <h1>Posts</h1>
+    <p>
+      A growing archive of technical notes, small experiments, project logs and thoughts worth keeping. 📚
+    </p>
+  </section>
+
+  <section class="section compact-section">
+    <div class="archive-topline">
+      <h2>All posts <span>({archivePosts.length})</span></h2>
+    </div>
+
+    <div class="post-list">
+      {archivePosts.map((post, index) => (
+        <a class="post-row" href={`/blog/${post.slug}/`}>
+          <span class="post-number">{String(index + 1).padStart(2, "0")}</span>
+          <span class="post-main">
+            <span class="post-meta">{post.category} · {post.date}</span>
+            <strong>{post.title}</strong>
+            {post.excerpt && <span>{post.excerpt}</span>}
+          </span>
+          <span class="post-arrow">→</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

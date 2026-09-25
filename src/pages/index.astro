@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { archivePosts } from "../data/posts";
+
+const latestPosts = archivePosts.slice(0, 5);
+---
+
+<Layout
+  title="Rovshan Gurbanov — Personal Blog"
+  description="Notes, projects and things I'm learning, collected by Rovshan Gurbanov."
+>
+  <div class="home-page">
+    <section class="welcome" aria-labelledby="welcome-title">
+      <h1 id="welcome-title">Hello, I’m Rovshan.</h1>
+      <div class="welcome-copy">
+        <p>I’m interested in computers, software and the process of turning an idea into something useful. This is where I share what I’m learning, making and thinking about along the way. 💻</p>
+        <a class="text-link" href="/about/">About me <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="reading-section recent-section" aria-labelledby="recent-title">
+      <div class="section-label"><h2 id="recent-title">Recent post</h2><a href="/blog/">All posts <span>→</span></a></div>
+      <div class="recent-list">
+        {latestPosts.map((post) => (
+          <a class="recent-post" href={`/blog/${post.slug}/`}>
+            <span class="recent-date">{post.date}</span>
+            <span class="recent-info"><strong>{post.title}</strong><span>{post.excerpt}</span></span>
+            <span class="recent-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Layout>

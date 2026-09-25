@@ -1,0 +1,144 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const games = [
+  {
+    title: "Cyberpunk 2077",
+    cover: "https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg",
+    storeUrl: "https://store.steampowered.com/app/1091500/Cyberpunk_2077/",
+    description: "For me, Cyberpunk 2077 is a game that no matter how much time I sink into it, it always manages to surprise me and keeps me attached with its world. 🌃",
+  },
+  {
+    title: "Red Dead Redemption 2",
+    cover: "https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg",
+    storeUrl: "https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/",
+    description: "The most detailed and beautiful-looking open-world action game I’ve played so far. 🌄",
+  },
+  {
+    title: "The Last of Us Part I",
+    cover: "https://upload.wikimedia.org/wikipedia/en/8/86/The_Last_of_Us_Part_I_cover.jpg",
+    storeUrl: "https://store.steampowered.com/app/1888930/The_Last_of_Us_Part_I/",
+    description: "Its cinematic presentation and story are what really drew me in and kept me invested. 🎬",
+  },
+  {
+    title: "The Witcher 3: Wild Hunt",
+    cover: "https://upload.wikimedia.org/wikipedia/en/0/0c/Witcher_3_cover_art.jpg",
+    storeUrl: "https://store.steampowered.com/app/292030/The_Witcher_3_Wild_Hunt/",
+    description: "A wonderful game whose RPG elements and compelling characters kept me playing for hours. 🐺",
+  },
+  {
+    title: "Call of Duty: Modern Warfare 2",
+    cover: "https://upload.wikimedia.org/wikipedia/en/5/52/Call_of_Duty_Modern_Warfare_2_%282009%29_cover.png",
+    storeUrl: "https://store.steampowered.com/app/10180/Call_of_Duty_Modern_Warfare_2/",
+    description: "Its story made this a game I could never forget after playing it for the first time. 🎖️",
+  },
+  {
+    title: "Grand Theft Auto: San Andreas",
+    cover: "https://upload.wikimedia.org/wikipedia/en/c/c4/GTASABOX.jpg",
+    storeUrl: "https://store.steampowered.com/app/1547000/Grand_Theft_Auto_The_Trilogy_The_Definitive_Edition/",
+    description: "Including the Multi Theft Auto version, this is the game I’ve spent the most hours playing. 🚗",
+  },
+  {
+    title: "Doom Eternal",
+    cover: "https://upload.wikimedia.org/wikipedia/en/9/9d/Cover_Art_of_Doom_Eternal.png",
+    storeUrl: "https://store.steampowered.com/app/782330/DOOM_Eternal/",
+    description: "Its music makes me want to dive headfirst into the action. 🎸",
+  },
+  {
+    title: "God of War: Ragnarök",
+    cover: "https://upload.wikimedia.org/wikipedia/en/e/ee/God_of_War_Ragnar%C3%B6k_cover.jpg",
+    storeUrl: "https://store.steampowered.com/app/2322010/God_of_War_Ragnarok/",
+    description: "Its story, world, and stunning visuals make it one of the most special games I’ve ever played. ⚔️",
+  },
+];
+
+const mostPlayedOnlineGame = {
+  title: "Marvel Rivals",
+  cover: "https://cdn.mobygames.com/covers/19465997-marvel-rivals-xbox-series-front-cover.jpg",
+  storeUrl: "https://store.steampowered.com/app/2767030/Marvel_Rivals/",
+};
+
+const fortnite = {
+  title: "Fortnite",
+  cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEemlZ0A9ydQ_nKogIqYc--Q0Aw45X7XvDeOrlwQ9Btg&s=10",
+  storeName: "Epic Games",
+  storeUrl: "https://store.epicgames.com/p/fortnite",
+};
+---
+
+<Layout title="Tastes — Rovshan Gurbanov" description="Personal favorites and things I enjoy, collected by Rovshan Gurbanov.">
+  <section class="page-hero">
+    <h1>Tastes</h1>
+    <p>A little collection of things I enjoy, return to, and want to share. ✨</p>
+  </section>
+
+  <section class="section compact-section">
+    <div class="taste-categories">
+      <section class="taste-category" aria-labelledby="gaming-title">
+        <h2 id="gaming-title">Gaming</h2>
+        <div class="game-list">
+          {games.map((game) => (
+            <article class="game-entry">
+              <div class="game-media">
+                <img class="game-cover" src={game.cover} alt={`${game.title} cover art`} loading="lazy" decoding="async" />
+                <a class="store-link" href={game.storeUrl} target="_blank" rel="noopener noreferrer" aria-label={`${game.title} on Steam`}>
+                  <img class="store-logo" src="https://cdn.simpleicons.org/steam" alt="" aria-hidden="true" />
+                  <span>Steam</span>
+                </a>
+              </div>
+              <div class="game-copy">
+                <h3>{game.title}</h3>
+                {game.description && <p>{game.description}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="online-games">
+          <h3 class="taste-subcategory-title">Most Played Online Games</h3>
+          <article class="game-entry">
+            <div class="game-media">
+              <img class="game-cover" src={mostPlayedOnlineGame.cover} alt="Marvel Rivals cover art" loading="lazy" decoding="async" />
+              <a class="store-link" href={mostPlayedOnlineGame.storeUrl} target="_blank" rel="noopener noreferrer" aria-label="Marvel Rivals on Steam">
+                <img class="store-logo" src="https://cdn.simpleicons.org/steam" alt="" aria-hidden="true" />
+                <span>Steam</span>
+              </a>
+            </div>
+            <div class="game-copy">
+              <h4>{mostPlayedOnlineGame.title}</h4>
+            </div>
+          </article>
+          <article class="game-entry">
+            <div class="game-media">
+              <img class="game-cover" src={fortnite.cover} alt="Fortnite cover art" loading="lazy" decoding="async" />
+              <a class="store-link" href={fortnite.storeUrl} target="_blank" rel="noopener noreferrer" aria-label="Fortnite on Epic Games">
+                <img class="store-logo" src="https://cdn.simpleicons.org/epicgames" alt="" aria-hidden="true" />
+                <span>{fortnite.storeName}</span>
+              </a>
+            </div>
+            <div class="game-copy">
+              <h4>{fortnite.title}</h4>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="taste-category" aria-labelledby="music-title">
+        <h2 id="music-title">Music</h2>
+        <article class="music-entry">
+          <a class="mix-cover" href="https://music.youtube.com/playlist?list=PLbXJQWUauvQ0&si=OAh5O1vlWyyFvxr_" target="_blank" rel="noopener noreferrer" aria-label="Listen to My Mix on YouTube Music">
+            <svg viewBox="0 0 64 64" role="img" aria-label="Music note">
+              <path d="M42 12v29.5a9.5 9.5 0 1 1-4-7.8V19l-18 4v23.5a9.5 9.5 0 1 1-4-7.8V20a4 4 0 0 1 3.1-3.9l18-4.1A4 4 0 0 1 42 16z" fill="currentColor" />
+            </svg>
+          </a>
+          <div class="music-copy">
+            <h3>My Mix</h3>
+            <p>I mostly enjoy listening to rock and metal, and Metallica is my favorite band. So you’ll likely find plenty of rock and metal in this playlist. You can discover what else I listen to by exploring it. 🎸</p>
+            <a class="music-link" href="https://music.youtube.com/playlist?list=PLbXJQWUauvQ0&si=OAh5O1vlWyyFvxr_" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-2.1 14.1V7.9L17 12l-7.1 4.1Z" fill="currentColor" /></svg>
+              <span>Listen on YouTube Music</span><span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      </section>
+    </div>
+  </section>
+</Layout>
